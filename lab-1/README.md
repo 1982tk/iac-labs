@@ -8,7 +8,7 @@ CI/CD - Ciągła integracja oraz ciągłe wdrażanie
 
 Ćwiczenie można wykonywać na dwa sposoby:
 
-1. Używając swojego prywatnego komputera - sugerowane rozwiązanie
+1. Używając swojego prywatnego komputera
 2. Używając VDI (Sugeruje użycie Ubuntu 20.04)
 
 Opcja 1:
@@ -39,14 +39,27 @@ Czym jest fork repozytorium?
 
 Uruchomienie aplikacji lokalnie w celach deweloperskich
 
-- Sklonuj repozytorium na swój komputer
+- Sklonuj repozytorium na swój komputer `git clone <adres-repozytorium>`
 - Przejdź do katalogu `example-app`
+- Kroki dodatkowe dla VDI Ubuntu 20.04 wydaj polecenie `sudo apt-get -y purge python3-virtualenv`
+- Zainstaluj poetry poleceniem: `curl -sSL https://install.python-poetry.org | python3 -`
+- Dodaj poetry do ścieżki systemowej: `export PATH=$PATH:$HOME/.local/bin`
 - Upewnij się, ze poetry działa prawidłowo `poetry debug info`
 - Wykonaj polecenie `poetry install` w celu instalacji zależności projektowych
-- Uruchom projekt poleceniem `poetry run task server`
-- Przejdź do adresu `http://localhost:5000`
-- Czy projekt się uruchomił? Wnioski?
-- Przetestuj pozostałe możliwe zadania (sekcja `tasks`) do uruchomienia dostępne w pliku [pyproject.toml](../example-app/pyproject.toml)
+- Uruchom projekt poleceniem `poetry run task local`
+- Przejdź do adresu `http://localhost:5000` w przeglądarce
+- Efekt końcowy powinien wyglądać podobnie do:
+- ![Example App](/assets/example-app.png)
+- Stwórz konto z wykorzystaniem formularza rejestracji (uzyj swojego indeksu jako nazwy użytkownika, a e-mail dowolny)
+- Zaloguj się z wykorzystaniem utworzonego konta
+- Wykonaj polecenie `poetry run task test` w celu uruchomienia testów jednostkowych
+- Upewnij się, ze wszystkie testy zakończyły się powodzeniem
+- Wykonaj polecenie `poetry run task lint` w celu uruchomienia testów statycznych kodu
+- Upewnij się, ze wszystkie testy zakończyły się powodzeniem
+- Wykonaj polecenie `poetry run task formatter` w celu uruchomienia formatera kodu
+- Upewnij się, ze wszystkie testy zakończyły się powodzeniem
+- Wykonaj polecenie `poetry run task security` w celu uruchomienia testów bezpieczeństwa
+- Upewnij się, ze wszystkie testy zakończyły się powodzeniem
 
 ## Zadanie 3 - Tworzenie środowiska ciągłej integracji
 
@@ -63,7 +76,9 @@ Zadanie ma na celu stworzenie środowiska wewnątrz GitHub Actions, które będz
 ![Actions](/assets/github-actions.png)
 
 - Wyszukaj ze zbioru gotowych rozwiązań workflow "python application" i stwórz go
+  
 Pytanie 1: W jakim katalogu github sugeruje tworzenie konfiguracji do uruchamiania CI/CD?
+
 Pytanie 2: Czy jest to ta sama metoda instalowania zależności?
 
 - Testowana aplikacja wymaga instalacji `poetry` do kontekstu Github-Actions zatem:
@@ -181,6 +196,8 @@ Pytanie: Czy operacja zakończyła się powodzeniem?
 
 - Dodaj bazę danych [PostgreSQL](https://dashboard.render.com/new/database) do serwisu
 - Otrzymane informacje o utworzonej bazie zastosuj dla środowiska aplikacji webowej utworzonej na portalu
+
+  - Informacje o tym jakie zmienne środowiskowe zastosować (ich nazwy) znajdziesz [tutaj](https://github.com/mwidera/iac-labs/blob/main/example-app/env.sample#L10-L15)
 - Wykonaj ponowne wdrożenie kodu, by wprowadzone zmiany zostały rozpropagowane po środowisku
 
 Pytanie: Czy modyfikacje github actions są potrzebne, by uzyskać ciągle wdrażanie w tym przypadku?
